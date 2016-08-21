@@ -6,6 +6,7 @@ BinarySearchTree class
 CONSTRUCTION: zero parameter
 
 ******************PUBLIC OPERATIONS*********************
+
 void insert( x )       --> Insert x
 
 void remove( x )       --> Remove x
