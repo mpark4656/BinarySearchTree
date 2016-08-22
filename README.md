@@ -5,7 +5,9 @@ Practice Creating Binary Search Tree ADT
 BinarySearchTree class template
 
 Creates a binary search tree for <Object>
+
 CONSTRUCTION: Zero Parameter
+
 Object must provide its own operator< if necessary.
 
 ******************PUBLIC OPERATIONS*********************
