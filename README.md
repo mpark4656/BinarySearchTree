@@ -23,3 +23,12 @@ void makeEmpty( )      --> Remove all items
 
 void printTree( )      --> Print tree in sorted order
 
+
+******************** UPDATE 8/21/2016 ********************
+Added BstIterator ADT and implemented the following public functions
+
+begin(); --> Iterator pointing to the first element in the tree (leftmost item)
+end(); --> Iterator pointing to the position just past the last element (Always nullptr)
+find( x ); --> Returns iterator pointing to the position that x is found
+operator++ --> Increment Iterator, pointing to the next position in the tree (In-Order Traversal). Provides both prefix and postfix
+operator-- --> Decrement Iterator, pointing to the previous position (In-Order Traversal). Provides both prefix and postfix
