@@ -25,6 +25,7 @@ void printTree( )      --> Print tree in sorted order
 
 
 ******************** UPDATE 8/21/2016 ********************
+
 Added BstIterator ADT and implemented the following public functions
 
 begin(); --> Iterator pointing to the first element in the tree (leftmost item)
