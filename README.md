@@ -1,9 +1,12 @@
 # BinarySearchTree
+
 Practice Creating Binary Search Tree ADT
 
-BinarySearchTree class
+BinarySearchTree class template
 
-CONSTRUCTION: zero parameter
+Creates a binary search tree for <Object>
+CONSTRUCTION: Zero Parameter
+Object must provide its own operator< if necessary.
 
 ******************PUBLIC OPERATIONS*********************
 
@@ -24,7 +27,7 @@ void makeEmpty( )      --> Remove all items
 void printTree( )      --> Print tree in sorted order
 
 
-******************** UPDATE 8/21/2016 ********************
+******************UPDATE 8/21/2016******************
 
 Added BstIterator ADT and implemented the following public functions
 
