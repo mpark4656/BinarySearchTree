@@ -2,13 +2,25 @@
 #define BINARYSEARCHTREE_H_INCLUDED
 
 #include <algorithm>
-#include <iostream>
-
-#include "BinaryNode.h"
 
 template <typename Object>
 class BinarySearchTree
 {
+private:
+    struct BinaryNode
+    {
+        Object element;
+        BinaryNode* left;
+        BinaryNode* right;
+        BinaryNode* parent;
+
+        BinaryNode( const Object &theElement , BinaryNode* lt , BinaryNode* rt , BinaryNode* par )
+            : element{ theElement } , left{ lt } , right{ rt } , parent{ par } {}
+
+        BinaryNode( const Object &&theElement , BinaryNode* lt , BinaryNode* rt , BinaryNode* par )
+            : element{ std::move(theElement) } , left{ lt } , right{ rt } , parent{ par } {}
+    };
+
 public:
     class BstIterator: public std::iterator<std::bidirectional_iterator_tag , Object>
     {
@@ -37,7 +49,7 @@ public:
         // Pre-increment. Move forward to next larger value
         BstIterator & operator++ ()
         {
-            BinaryNode<Object>* p;
+            BinaryNode* p;
 
             if ( nodePtr == nullptr )
             {
@@ -100,7 +112,7 @@ public:
         // Pre-decrement. Move backward to largest value < current value
         BstIterator operator-- ()
         {
-            BinaryNode<Object>* p;
+            BinaryNode* p;
 
             // Node is pointing to end()
             if( nodePtr == nullptr )
@@ -157,11 +169,11 @@ public:
         // with this iterator. it is used only to access the
         // root pointer, which is needed for ++ and --
         // when the iterator value is end()
-        const BinaryNode<Object>* nodePtr;
+        const BinaryNode* nodePtr;
         const BinarySearchTree* tree;
 
         // Used to construct an iterator return value from a node pointer
-        BstIterator( const BinaryNode<Object>* p , const BinarySearchTree* t ): nodePtr{ p } , tree{ t } {}
+        BstIterator( const BinaryNode* p , const BinarySearchTree* t ): nodePtr{ p } , tree{ t } {}
     };
 
 public:
@@ -331,7 +343,7 @@ public:
     }
 
 private:
-    BinaryNode<Object>* root;
+    BinaryNode* root;
 
    /**
     *   Internal method to insert into a subtree
@@ -339,10 +351,10 @@ private:
     *   t is the node that roots the subtree
     *   Set the new root of the subtree
     */
-    void insert( const Object &x , BinaryNode<Object>* &t , BinaryNode<Object>* par )
+    void insert( const Object &x , BinaryNode* &t , BinaryNode* par )
     {
         if( t == nullptr) {
-            t = new BinaryNode<Object> { x , nullptr , nullptr , par };
+            t = new BinaryNode { x , nullptr , nullptr , par };
         }
         else if( x < t->element ) {
             insert( x , t->left , t );
@@ -361,10 +373,10 @@ private:
     *   t is the node that roots the subtree
     *   Set the new root of the subtree
     */
-    void insert( const Object &&x , BinaryNode<Object>* &t , BinaryNode<Object>* par )
+    void insert( const Object &&x , BinaryNode* &t , BinaryNode* par )
     {
         if( t == nullptr) {
-            t = new BinaryNode<Object> { std::move( x ) , nullptr , nullptr , par };
+            t = new BinaryNode { std::move( x ) , nullptr , nullptr , par };
         }
         else if( x < t->element ) {
             insert( std::move( x ) , t->left , t );
@@ -383,7 +395,7 @@ private:
     *   t is the node that roots the subtree.
     *   Set the new root of the subtree.
     */
-    void remove( const Object &x , BinaryNode<Object>* &t )
+    void remove( const Object &x , BinaryNode* &t )
     {
         if( t == nullptr ) {
             return; // Nothing is found. Return.
@@ -400,7 +412,7 @@ private:
             remove( t->element , t->right );
         }
         else {
-            BinaryNode<Object>* oldNode = t;
+            BinaryNode* oldNode = t;
 
             if( t->left == nullptr ) {
                 t->right->parent = t->parent;
@@ -419,7 +431,7 @@ private:
     *   Internal method to find the smallest item in a subtree t.
     *   Return node containing the smallest item.
     */
-    BinaryNode<Object>* findMin( BinaryNode<Object>* t ) const
+    BinaryNode* findMin( BinaryNode* t ) const
     {
         if( t == nullptr ) {
             return nullptr;
@@ -435,7 +447,7 @@ private:
     *   Internal method to find the largest item in a subtree t.
     *   Return node containing the largest item.
     */
-    BinaryNode<Object>* findMax( BinaryNode<Object>* t ) const
+    BinaryNode* findMax( BinaryNode* t ) const
     {
         if( t != nullptr ) {
             while( t->right != nullptr ) {
@@ -451,7 +463,7 @@ private:
     *   x is item to search for.
     *   t is the node that roots the subtree.
     */
-    bool contains( const Object &x , BinaryNode<Object>* t ) const
+    bool contains( const Object &x , BinaryNode* t ) const
     {
         if( t == nullptr ) {
             return false;
@@ -467,25 +479,10 @@ private:
         }
     }
 
-/****** NONRECURSIVE VERSION*************************
-    bool contains( const Comparable & x, BinaryNode *t ) const
-    {
-        while( t != nullptr )
-            if( x < t->element )
-                t = t->left;
-            else if( t->element < x )
-                t = t->right;
-            else
-                return true;    // Match
-
-        return false;   // No match
-    }
-*****************************************************/
-
    /**
     *   Internal method to make subtree empty.
     */
-    void makeEmpty( BinaryNode<Object>* t )
+    void makeEmpty( BinaryNode* t )
     {
         if( t != nullptr ) {
             makeEmpty( t->left );
@@ -501,25 +498,13 @@ private:
    /**
     *   Internal method to clone subtree.
     */
-    BinaryNode<Object>* clone( BinaryNode<Object>* t ) const
+    BinaryNode* clone( BinaryNode* t ) const
     {
         if( t != nullptr ) {
-            return new BinaryNode<Object> { t->element , clone( t->left ) , clone( t->right ) , clone( t->parent ) };
+            return new BinaryNode { t->element , clone( t->left ) , clone( t->right ) , clone( t->parent ) };
         }
 
         return nullptr;
-    }
-
-   /**
-    *   Internal method to print a subtree rooted at t in descending order.
-    */
-    void printTree( BinaryNode<Object>* t , std::ostream &out ) const
-    {
-        if( t != nullptr ) {
-            printTree( t->right , out );
-            out << t->element << std::endl;
-            printTree( t->left , out );
-        }
     }
 };
 
