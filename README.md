@@ -26,8 +26,6 @@ boolean isEmpty( )     --> Return true if empty; else false
 
 void makeEmpty( )      --> Remove all items
 
-void printTree( )      --> Print tree in sorted order
-
 
 ******************UPDATE 8/21/2016******************
 
