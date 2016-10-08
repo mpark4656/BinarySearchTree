@@ -10,7 +10,7 @@ CONSTRUCTION: Zero Parameter
 
 Object must provide its own operator< if necessary.
 
-******************PUBLIC OPERATIONS*********************
+## PUBLIC OPERATIONS
 - void insert( x )       --> Insert x
 - void remove( x )       --> Remove x
 - bool contains( x )     --> Return true if x is present
