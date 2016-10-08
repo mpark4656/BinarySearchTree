@@ -20,7 +20,7 @@ Object must provide its own operator< if necessary.
 - void makeEmpty( )      --> Remove all items
 
 
-******************UPDATE 8/21/2016******************
+## UPDATE 8/21/2016
 - Added BstIterator ADT and implemented the following public functions
 - begin(); --> Iterator pointing to the first element in the tree (leftmost item)
 - end(); --> Iterator pointing to the position just past the last element (Always nullptr)
